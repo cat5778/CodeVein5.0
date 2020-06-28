@@ -103,11 +103,6 @@ HRESULT CField::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	NULL_CHECK_RETURN(pLayer, E_FAIL);
 	Engine::CGameObject*		pGameObject = nullptr;
 
-	// SkyBox
-	pGameObject = CSkyBox::Create(m_pGraphicDev);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkyBox", pGameObject), E_FAIL);
-
 
 	// Player
 	pGameObject = CPlayer::Create(m_pGraphicDev,0, m_uiStageIdx);

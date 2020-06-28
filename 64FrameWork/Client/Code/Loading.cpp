@@ -341,29 +341,29 @@ _bool CLoading::Loading_Dynamic()
 
 	lstrcpy(m_szLoading[DYNAMIC], L"Monster Loading .............................");
 
-	//FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
-	//	RESOURCE_STAGE,
-	//	L"RussianHat",
-	//	Engine::TYPE_DYNAMIC,
-	//	L"../../Resource/Mesh/DynamicMesh/RussianHat/",
-	//	L"RussianHat.X"),
-	//	E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
+		RESOURCE_STAGE,
+		L"RussianHat",
+		Engine::TYPE_DYNAMIC,
+		L"../../Resource/Mesh/DynamicMesh/RussianHat/",
+		L"RussianHat.X"),
+		E_FAIL);
 
-	//FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
-	//	RESOURCE_STAGE,
-	//	L"RedDevil",
-	//	Engine::TYPE_DYNAMIC,
-	//	L"../../Resource/Mesh/DynamicMesh/RedDevil/",
-	//	L"RedDevil.X"),
-	//	E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
+		RESOURCE_STAGE,
+		L"RedDevil",
+		Engine::TYPE_DYNAMIC,
+		L"../../Resource/Mesh/DynamicMesh/RedDevil/",
+		L"RedDevil.X"),
+		E_FAIL);
 
-	//FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
-	//	RESOURCE_STAGE,
-	//	L"CocoonDevil",
-	//	Engine::TYPE_DYNAMIC,
-	//	L"../../Resource/Mesh/DynamicMesh/CocoonDevil/",
-	//	L"CocoonDevil.X"),
-	//	E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
+		RESOURCE_STAGE,
+		L"CocoonDevil",
+		Engine::TYPE_DYNAMIC,
+		L"../../Resource/Mesh/DynamicMesh/CocoonDevil/",
+		L"CocoonDevil.X"),
+		E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
 		RESOURCE_STAGE,
