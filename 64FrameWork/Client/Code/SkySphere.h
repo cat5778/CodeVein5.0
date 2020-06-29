@@ -40,7 +40,8 @@ private:
 	Engine::CShader*		m_pShaderCom = nullptr;
 	_float					m_fScale = 0.5f;//0.05
 	_uint					m_uiStageIdx=0;
-
+	_float					m_fRot=0.f;
+	_float					m_fLength = 1.0f;
 	wstring					m_wstrMeshName;
 
 

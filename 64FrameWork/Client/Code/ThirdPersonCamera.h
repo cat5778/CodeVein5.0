@@ -7,7 +7,7 @@
 BEGIN(Engine)
 class CTransform;
 END
-
+class CLockOn;
 
 class CThirdPersonCamera : public Engine::CCamera
 {
@@ -59,6 +59,8 @@ private:
 	_vec3					m_vHeadPos;
 	_vec3					m_vInitPos;
 	_float					m_LockOnDistance = 0.f;
+	CLockOn*				m_pLockOn;
+
 
 public:
 	static CThirdPersonCamera*		Create(LPDIRECT3DDEVICE9 pGraphicDev,

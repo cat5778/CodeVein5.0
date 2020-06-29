@@ -116,15 +116,15 @@ HRESULT CLogo::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	dynamic_cast<CImage*>(pGameObject)->Set_MaxAlpha(0.15f);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"03.CloudPattern_4_UI", pGameObject), E_FAIL);
 
-	pGameObject = CImage::Create(m_pGraphicDev, L"TitleLogo_BG_Br_UI", _vec3(0.f, 0.f, 0.003f), PIVOT_LT, 1.5f, _vec3(0.0f, 0.f, 0.f), 100.f);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	dynamic_cast<CImage*>(pGameObject)->Set_MaxAlpha(0.25f);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"04.CloudPattern_3_UI", pGameObject), E_FAIL);
-
-	pGameObject = CImage::Create(m_pGraphicDev, L"T_TitleLogo_Br_UI", _vec3(0.f, 0.f, 0.003f), PIVOT_LT,2.9f, _vec3(0.0f, 0.f, 0.f));
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//pGameObject = CImage::Create(m_pGraphicDev, L"TitleLogo_BG_Br_UI", _vec3(0.f, 0.f, 0.003f), PIVOT_LT, 1.5f, _vec3(0.0f, 0.f, 0.f), 100.f);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//dynamic_cast<CImage*>(pGameObject)->Set_MaxAlpha(0.25f);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"05.T_TitleLogo_Br_UI", pGameObject), E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"04.CloudPattern_3_UI", pGameObject), E_FAIL);
+
+	//pGameObject = CImage::Create(m_pGraphicDev, L"T_TitleLogo_Br_UI", _vec3(0.f, 0.f, 0.003f), PIVOT_LT,2.9f, _vec3(0.0f, 0.f, 0.f));
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	////dynamic_cast<CImage*>(pGameObject)->Set_MaxAlpha(0.25f);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"05.T_TitleLogo_Br_UI", pGameObject), E_FAIL);
 
 
 	m_pLayerMap.emplace(pLayerTag, pLayer);

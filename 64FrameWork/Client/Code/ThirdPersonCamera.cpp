@@ -2,7 +2,7 @@
 #include "ThirdPersonCamera.h"
 #include "Export_Function.h"
 #include "Player.h"
-
+#include "LockOn.h"
 CThirdPersonCamera::CThirdPersonCamera(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CCamera(pGraphicDev)
 {
@@ -40,6 +40,8 @@ HRESULT CThirdPersonCamera::LateReady_GameObject(void)
 
 	if (m_ppGameObjectMap == nullptr)
 		m_ppGameObjectMap = &Engine::Get_Layer(L"GameLogic")->Get_ObjectMap();
+	m_pLockOn = dynamic_cast<CLockOn*>(Engine::Get_GameObject(L"UI", L"LockOnUI"));
+
 	return S_OK;
 }
 
@@ -100,7 +102,8 @@ void CThirdPersonCamera::Target_Renewal(const _float& fTimeDelta)
 
 
 		m_vEye = m_pTransformCom->m_vInfo[Engine::INFO_POS] = -(m_vHeadPos + m_pTransformCom->m_vInfo[Engine::INFO_LOOK]) * m_fDistance;
-	
+		
+
 	}
 
 	m_matWorld = (*m_pParentBoneMatrix * *m_pParentWorldMatrix);
@@ -115,7 +118,8 @@ void CThirdPersonCamera::Target_Renewal(const _float& fTimeDelta)
 
 		m_pTransformCom->Rotation(Engine::ROT_X, D3DXToRadian(m_fVerticalAngle));
 		m_pTransformCom->Rotation(Engine::ROT_Y, D3DXToRadian(m_fHorizonAngle));
-
+		if (m_pLockOn != nullptr)
+			m_pLockOn->Set_TargetPos(nullptr);
 
 
 	}
@@ -123,6 +127,7 @@ void CThirdPersonCamera::Target_Renewal(const _float& fTimeDelta)
 	{
 		if (m_pMonTransform == nullptr)
 		{
+
 			wstring wstrInstName;
 			m_LockOnDistance = std::numeric_limits<float>::infinity();
 
@@ -151,6 +156,8 @@ void CThirdPersonCamera::Target_Renewal(const _float& fTimeDelta)
 			
 			}
 			m_pMonTransform = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(L"GameLogic", wstrInstName.c_str(), L"Com_Transform", Engine::ID_DYNAMIC));
+			if (m_pLockOn != nullptr)
+				m_pLockOn->Set_TargetPos(m_pMonTransform);
 
 
 		}
@@ -158,16 +165,20 @@ void CThirdPersonCamera::Target_Renewal(const _float& fTimeDelta)
 		D3DXVec3Normalize(&vLook, &vLook);
 		//m_pTransformCom->Rotation(Engine::ROT_Y, D3DXToRadian());
 
-		
-		m_vAt = *m_pMonTransform->Get_Info(Engine::INFO_POS);   // TargetPos 
-		_vec3 vTempDir = m_pTransformCom->m_vInfo[Engine::INFO_POS] - m_vAt;
+		if (m_pMonTransform != nullptr)
+		{
+			m_vAt = *m_pMonTransform->Get_Info(Engine::INFO_POS);   // TargetPos 
+			_vec3 vTempDir = m_pTransformCom->m_vInfo[Engine::INFO_POS] - m_vAt;
 
-		//cout << Get_Angle(vLook, -vTempDir)<< endl;
-		//m_pTransformCom-
+			//cout << Get_Angle(vLook, -vTempDir)<< endl;
+			//m_pTransformCom-
 
-		D3DXVec3Normalize(&vTempDir, &vTempDir);
-		m_pTransformCom->m_vInfo[Engine::INFO_POS] = m_vHeadPos + vTempDir * m_fDistance;
-		
+			D3DXVec3Normalize(&vTempDir, &vTempDir);
+			m_pTransformCom->m_vInfo[Engine::INFO_POS] = m_vHeadPos + vTempDir * m_fDistance;
+		}
+		else
+			m_vAt = m_vHeadPos;
+
 		//_vec3 vPos =m_pTransformCom->m_vInfo[Engine::INFO_POS];
 
 	}

@@ -37,6 +37,11 @@ const D3DLIGHT9* Engine::CLightMgr::Get_LightInfo(const _uint& iIndex /*= 0*/)
 	return m_vecLight[iIndex]->Get_LightInfo();
 }
 
+D3DLIGHT9 * CLightMgr::Get_Light(const _uint & iIndex)
+{
+	return m_vecLight[iIndex]->Get_Light();
+}
+
 void Engine::CLightMgr::Render_Light(LPD3DXEFFECT& pEffect)
 {
 	for (auto& iter : m_vecLight)

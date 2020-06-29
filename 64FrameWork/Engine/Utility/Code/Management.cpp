@@ -73,6 +73,15 @@ HRESULT CManagement::Ready_Management(LPDIRECT3DDEVICE9 & pGraphicDev)
 	NULL_CHECK_RETURN(pShader, E_FAIL);
 	FAILED_CHECK_RETURN(Engine::Ready_Prototype(L"Shader_Title", pShader), E_FAIL);
 
+	pShader = CShader::Create(pGraphicDev, L"../../Reference/Header/Shader_LockOn.hpp");
+	NULL_CHECK_RETURN(pShader, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Prototype(L"Shader_LockOn", pShader), E_FAIL);
+
+	pShader = CShader::Create(pGraphicDev, L"../../Reference/Header/Shader_3DUI.hpp");
+	NULL_CHECK_RETURN(pShader, E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Prototype(L"Shader_3DUI", pShader), E_FAIL);
+
+
 	return S_OK;
 }
 

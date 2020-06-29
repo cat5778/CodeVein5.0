@@ -187,6 +187,7 @@
     <ClInclude Include="..\Code\Image.h" />
     <ClInclude Include="..\Code\KeyMgr.h" />
     <ClInclude Include="..\Code\Loading.h" />
+    <ClInclude Include="..\Code\LockOn.h" />
     <ClInclude Include="..\Code\Logo.h" />
     <ClInclude Include="..\Code\MainApp.h" />
     <ClInclude Include="..\Code\Monster.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="..\Code\Image.cpp" />
     <ClCompile Include="..\Code\KeyMgr.cpp" />
     <ClCompile Include="..\Code\Loading.cpp" />
+    <ClCompile Include="..\Code\LockOn.cpp" />
     <ClCompile Include="..\Code\Logo.cpp" />
     <ClCompile Include="..\Code\MainApp.cpp" />
     <ClCompile Include="..\Code\Monster.cpp" />

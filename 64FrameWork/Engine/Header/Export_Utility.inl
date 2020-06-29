@@ -48,6 +48,11 @@ const D3DLIGHT9*		Get_LightInfo(const _uint& iIndex)
 	return CLightMgr::GetInstance()->Get_LightInfo(iIndex);
 }
 
+inline D3DLIGHT9 * Get_Light(const _uint & iIndex)
+{
+	return CLightMgr::GetInstance()->Get_Light(iIndex);
+}
+
 HRESULT		Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev,
 	const D3DLIGHT9* pLightInfo,
 	const _uint& iIndex)

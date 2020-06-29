@@ -17,7 +17,7 @@ private:
 
 public:
 	const D3DLIGHT9*		Get_LightInfo(const _uint& iIndex = 0);
-
+	D3DLIGHT9*				Get_Light(const _uint& iIndex = 0);
 public:
 	HRESULT					Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev, 
 									const D3DLIGHT9* pLightInfo, 

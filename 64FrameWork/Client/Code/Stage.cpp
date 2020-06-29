@@ -14,6 +14,9 @@
 #include "UI.h"
 #include "Gauge.h"
 #include "3DUI.h"
+#include "LockOn.h"
+#include "Effect.h"
+
 //#include "SoundMgr.h"
 CStage::CStage(LPDIRECT3DDEVICE9 pGraphicDev)
 	: Engine::CScene(pGraphicDev)
@@ -59,8 +62,44 @@ _int CStage::Update_Scene(const _float& fTimeDelta)
 {
 	_int iEvent=Engine::CScene::Update_Scene(fTimeDelta);
 
+	m_fSin += fTimeDelta * 1000.f;
+	Engine::Get_Light(1)->Range = 5.f + sinf(D3DXToRadian(m_fSin))*-0.25f;
+
+	m_fNeonSin += fTimeDelta * 10000.f;
+	Engine::Get_Light(6)->Range = 0.5f + sinf(D3DXToRadian(m_fNeonSin))*-0.15f;
+
+	//cout << "LightRange =" << Engine::Get_Light(3)->Range << endl;
+	//Engine::Get_Light(0)->Position = _vec3(19.3f, 2.f, -1.f+sinf(D3DXToRadian(m_fSin))*-10.f);
+	if (CKeyMgr::GetInstance()->KeyDown(KEY_G))
+	{
+		m_fTest++;
+		Engine::Get_Light(6)->Range= m_fTest;
+		//cout << "Range" << m_fTest << endl;
+	}
+
+	//if (CKeyMgr::GetInstance()->KeyDown(KEY_H))
+	//{
+	//	m_fTest2 -= 1.f;
+	//	Engine::Get_Light(2)->Attenuation0 = m_fTest2;
+	//	cout << "att0" << m_fTest2 << endl;
+	//}
+
+
+	//if (CKeyMgr::GetInstance()->KeyDown(KEY_J))
+	//{
+	//	m_fTest3 -= 1.f;
+	//	Engine::Get_Light(2)->Attenuation1 = m_fTest3;
+	//	cout << "att1" << m_fTest3 << endl;
+
+	//}
+
+
+
+
+
 	if (CKeyMgr::GetInstance()->KeyDown(KEY_R))
 	{
+
 		Engine::CScene*		pScene = CField::Create(m_pGraphicDev);
 		if (pScene == nullptr)
 			return -1;
@@ -122,9 +161,9 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player", pGameObject), E_FAIL);
 
-	//pGameObject = CSkySphere::Create(m_pGraphicDev,0);
-	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkySphere", pGameObject), E_FAIL);
+	pGameObject = CSkySphere::Create(m_pGraphicDev,0);
+	NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"SkySphere", pGameObject), E_FAIL);
 
 
 	pGameObject = CDavis::Create(m_pGraphicDev, L"Davis", 0,_vec3(3.6598f,0.2853f,3.7742f),41);
@@ -142,9 +181,9 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	//{
 
 
-	//	pGameObject = CRussianHat::Create(m_pGraphicDev,L"RussianHat",0);
-	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
+		//pGameObject = CRussianHat::Create(m_pGraphicDev,L"RussianHat",0);
+		//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		//FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
 
 	//	////Shield 
 	//	pGameObject = CShield::Create(m_pGraphicDev, 0);
@@ -152,18 +191,25 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Shield", pGameObject), E_FAIL);
 
 
-	//	pGameObject = CRedDevil::Create(m_pGraphicDev, L"RedDevil",0,_vec3(-10.72f,0.338f,7.8f),48);
-	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
+		//pGameObject = CRedDevil::Create(m_pGraphicDev, L"RedDevil",0,_vec3(-10.72f,0.338f,7.8f),48);
+		//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		//FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
+
+
+		//pGameObject = CEffect::Create(m_pGraphicDev);
+		//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Effect", pGameObject), E_FAIL);
+
+
 
 
 	//	pGameObject = CHalberd::Create(m_pGraphicDev, 0);
 	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
 	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
 
-	//	pGameObject = CRedDevil::Create(m_pGraphicDev, L"RedDevil", 1, _vec3(-1.8f,0.0826f,15.9f), 47);
-	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
+		//pGameObject = CRedDevil::Create(m_pGraphicDev, L"RedDevil", 1, _vec3(-1.8f,0.0826f,15.9f), 47);
+		//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+		//FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
 
 
 	//	pGameObject = CHalberd::Create(m_pGraphicDev, 1);
@@ -172,9 +218,9 @@ HRESULT CStage::Ready_GameLogic_Layer(const _tchar* pLayerTag)
 
 
 
-	//	pGameObject = CCocoonDevil::Create(m_pGraphicDev, L"CocoonDevil", 0, _vec3(-15.36f, 0.9416f, -7.8253), 65);
-	//	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	//	FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
+	//pGameObject = CCocoonDevil::Create(m_pGraphicDev, L"CocoonDevil", 0, _vec3(-15.36f, 0.9416f, -7.8253), 65);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(pGameObject->Get_InstName().c_str(), pGameObject), E_FAIL);
 
 
 	//	int a = 3;
@@ -252,9 +298,13 @@ HRESULT CStage::Ready_UI_Layer(const _tchar* pLayerTag)
 
 
 
-	pGameObject = C3DUI::Create(m_pGraphicDev, L"BossHPBar");
+	//pGameObject = C3DUI::Create(m_pGraphicDev, L"BossHPBar");
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"3DUI", pGameObject), E_FAIL);
+
+	pGameObject = CLockOn::Create(m_pGraphicDev, L"LockOnSite");
 	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"3DUI", pGameObject), E_FAIL);
+	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"LockOnUI", pGameObject), E_FAIL);
 
 	m_pLayerMap.emplace(pLayerTag, pLayer);
 
@@ -263,16 +313,78 @@ HRESULT CStage::Ready_UI_Layer(const _tchar* pLayerTag)
 
 HRESULT CStage::Ready_LightInfo(void)
 {
-	D3DLIGHT9			tLightInfo;
-	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+	for (int i = 0; i < 9; i++)
+		ZeroMemory(&m_tLightInfo[i], sizeof(D3DLIGHT9));
+	//ÅÂ¾ç
+	m_tLightInfo[0].Type = D3DLIGHT_POINT; 
+	m_tLightInfo[0].Diffuse = D3DXCOLOR(1.f, 0.8f, 0.6f, 0.4f);
+	//m_tLightInfo[0].Diffuse = D3DXCOLOR(0.8f, 0.8f, 1.0f, 0.35f);// ´«¸Ê
+	m_tLightInfo[0].Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_tLightInfo[0].Ambient = D3DXCOLOR(0.5f, 0.5f, 0.7f, 1.f);
+	m_tLightInfo[0].Range = 1100.f;
+	//m_tLightInfo[0].Range = 0.f;
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[0], 0), E_FAIL);
 
-	tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
-	tLightInfo.Diffuse = D3DXCOLOR(0.95f, 0.95f, 1.0f, 1.f);
-	tLightInfo.Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	tLightInfo.Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f);
-	tLightInfo.Direction = _vec3(1.f, -1.f, 1.f);
 
-	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &tLightInfo, 0), E_FAIL);
+	//Æ÷Å» 
+	m_tLightInfo[1].Type = D3DLIGHT_POINT;
+	m_tLightInfo[1].Diffuse = D3DXCOLOR(0.5f, 0.85f, 1.f, 1.f);
+	m_tLightInfo[1].Specular = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_tLightInfo[1].Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_tLightInfo[1].Range = 10.f;
+	m_tLightInfo[1].Position = _vec3(19.3f, 1.f, -2.f);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[1], 1), E_FAIL);
+
+	//¹Ù Á¶¸í
+	m_tLightInfo[2].Type = D3DLIGHT_POINT;
+	m_tLightInfo[2].Diffuse = D3DXCOLOR(1.f, 0.6f, 0.8f, 1.f);
+	m_tLightInfo[2].Specular = D3DXCOLOR(1.f, 0.5f, 0.5f, 1.f);
+	m_tLightInfo[2].Ambient = D3DXCOLOR(1.f, 0.6f, 0.6f, 1.f);
+	m_tLightInfo[2].Range = 5.f;
+	m_tLightInfo[2].Position = _vec3(10.f, 0.4f, -5.8f);
+	m_tLightInfo[2].Attenuation0 = 0.f;
+	m_tLightInfo[2].Attenuation1 = 1.f;
+	m_tLightInfo[2].Attenuation2 = 0.f;
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[2], 2), E_FAIL);
+
+	//NPC
+	m_tLightInfo[3].Type = D3DLIGHT_POINT;
+	m_tLightInfo[3].Diffuse = D3DXCOLOR(0.95f, 0.8f, 0.7f, 1.f);
+	m_tLightInfo[3].Specular = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
+	m_tLightInfo[3].Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f);
+	m_tLightInfo[3].Range = 4.f;
+	m_tLightInfo[3].Position = _vec3(3.6598f, 2.5f, 3.7742f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[3], 3), E_FAIL);
+
+	//¼îÄÉÀÌ½º
+	m_tLightInfo[4].Type = D3DLIGHT_POINT;
+	m_tLightInfo[4].Diffuse = D3DXCOLOR(0.95f, 0.8f, 0.7f, 1.f);
+	m_tLightInfo[4].Specular = D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
+	m_tLightInfo[4].Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f);
+	m_tLightInfo[4].Range = 4.f;
+	m_tLightInfo[4].Position = _vec3(10.414f, 0.5f, 4.79f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[4], 4), E_FAIL);
+
+	//´ç±¸Àå
+	m_tLightInfo[5].Type		= D3DLIGHT_POINT;
+	m_tLightInfo[5].Diffuse		= D3DXCOLOR(0.95f, 0.8f, 0.6f, 1.f);
+	m_tLightInfo[5].Specular	= D3DXCOLOR(1.f, 0.7f, 0.7f, 1.f);
+	m_tLightInfo[5].Ambient		= D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f);
+	m_tLightInfo[5].Range		= 10.f;
+	m_tLightInfo[5].Position	= _vec3(-10.213, 2.f,2.58f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[5], 5), E_FAIL);
+
+	//³×¿Â
+	m_tLightInfo[6].Type = D3DLIGHT_POINT;
+	m_tLightInfo[6].Diffuse = D3DXCOLOR(0.95f, 0.5f, 0.95f, 1.f);
+	m_tLightInfo[6].Specular = D3DXCOLOR(1.f, 0.6f, 1.f, 1.f);
+	m_tLightInfo[6].Ambient = D3DXCOLOR(1.f, 0.5f, 1.f, 1.f);
+	m_tLightInfo[6].Range = 1.f;
+	m_tLightInfo[6].Position = _vec3(6.6567f,0.35f, 3.2512f);
+	FAILED_CHECK_RETURN(Engine::Ready_Light(m_pGraphicDev, &m_tLightInfo[6], 6), E_FAIL);
+
+
 
 	return S_OK;
 }

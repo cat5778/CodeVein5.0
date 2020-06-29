@@ -38,6 +38,7 @@ inline CRenderer*		Get_Renderer(void);
 // Set
 // General
 inline const D3DLIGHT9*		Get_LightInfo(const _uint& iIndex = 0);
+inline D3DLIGHT9*			Get_Light(const _uint& iIndex);
 
 
 inline HRESULT		Ready_Light(LPDIRECT3DDEVICE9 pGraphicDev,

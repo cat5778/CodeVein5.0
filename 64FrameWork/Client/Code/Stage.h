@@ -47,8 +47,14 @@ private:
 	_ulong								m_dwRenderCnt = 0;
 	_tchar								m_szFPS[256];
 	_float								m_fTime = 0.f;
-	
+	_float								m_fSin = 0.f;
+	_float								m_fNeonSin = 0.f;
 	map<wstring, Engine::CGameObject*>*	m_ppGameObjectMap = nullptr;
+	D3DLIGHT9							m_tLightInfo[9];
+	//Test
+	_float								m_fTest = 0.f;
+	_float								m_fTest2 =1.f;
+	_float								m_fTest3= 1.f;
 
 public:
 	static CStage*		Create(LPDIRECT3DDEVICE9 pGraphicDev);

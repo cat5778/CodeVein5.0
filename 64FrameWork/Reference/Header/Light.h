@@ -14,7 +14,7 @@ private:
 
 public:
 	const D3DLIGHT9*		Get_LightInfo(void) const { return &m_tLightInfo; }
-
+	D3DLIGHT9*				Get_Light() { return &m_tLightInfo; }
 
 public:
 	HRESULT			Ready_Light(const D3DLIGHT9* pLightInfo, 

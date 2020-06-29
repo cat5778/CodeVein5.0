@@ -124,6 +124,7 @@ _uint CLoading::Loading_ForStage(void)
 	{
 	case LOAD_NOMAL:
 		Loading_Mesh();
+
 		break;
 	case LOAD_NOMAL2:
 		FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
@@ -284,10 +285,16 @@ _bool CLoading::Loading_Basic()
 											E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(m_pGraphicDev,
+											RESOURCE_STAGE,
+											L"Texture_StaminaGauge",
+											Engine::TEX_NORMAL,
+											L"../../Resource/Texture/Gauge/StaminaGauge.tga"),
+											E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Texture(m_pGraphicDev,
 		RESOURCE_STAGE,
-		L"Texture_StaminaGauge",
+		L"LockOnSite",
 		Engine::TEX_NORMAL,
-		L"../../Resource/Texture/Gauge/StaminaGauge.tga"),
+		L"../../Resource/Texture/LockOn/LockOnSite.tga"),
 		E_FAIL);
 
 	FAILED_CHECK_RETURN(Engine::Ready_Texture(m_pGraphicDev,
@@ -309,6 +316,21 @@ _bool CLoading::Loading_Basic()
 		L"BossHPBar",
 		Engine::TEX_NORMAL,
 		L"../../Resource/Texture/Gauge/BossHPBar.tga"),
+		E_FAIL);
+
+	FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
+		RESOURCE_STAGE,
+		L"SM_Sky_ba01",
+		Engine::TYPE_STATIC,
+		L"../../Resource/Mesh/StaticMesh/Snow/SM_Sky_ba01/SM_Sky_ba01/",
+		L"SM_Sky_ba01.X"),
+		E_FAIL);
+	FAILED_CHECK_RETURN(Engine::Ready_Meshes(m_pGraphicDev,
+		RESOURCE_STAGE,
+		L"SM_SkySphere_st09a1",
+		Engine::TYPE_STATIC,
+		L"../../Resource/Mesh/StaticMesh/Snow/SM_SkySphere_st09a1/SM_SkySphere_st09a1/",
+		L"SM_SkySphere_st09a1.X"),
 		E_FAIL);
 
 	//Loading_Mesh2()

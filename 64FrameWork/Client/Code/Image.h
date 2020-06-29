@@ -33,9 +33,7 @@ private:
 	_float			m_fFilter = 0.0f;
 	_float			m_fAlphaSpd = 0.f;
 	_float			m_fAlphaMax = 1.f;
-	int a = 3;
-
-
+	_vec3			m_vTargetPos;
 public:
 	static CImage*		Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring wstrTexName, _vec3 vPos, PIVOT ePivot, _float fFilter,_vec3 vUVASpeed = { 0.f,0.f,1.f },_float fAlphaSpeed=0.f);
 

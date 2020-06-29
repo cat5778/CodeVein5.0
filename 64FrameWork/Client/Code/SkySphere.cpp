@@ -22,6 +22,8 @@ HRESULT CSkySphere::Ready_GameObject()
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 
 	m_pTransformCom->Set_Scale(m_fScale, m_fScale, m_fScale);
+	//m_pTransformCom->Rotation(Engine::ROT_Z, D3DXToRadian(23.5f)); //나중에 라이팅 태양처럼  같이옮겨주기 
+	m_pTransformCom->Rotation(Engine::ROT_Y, D3DXToRadian(210.f)); //나중에 라이팅 태양처럼  같이옮겨주기 
 
 	return S_OK;
 }
@@ -29,13 +31,30 @@ HRESULT CSkySphere::Ready_GameObject()
 
 _int CSkySphere::Update_GameObject(const _float& fTimeDelta)
 {
-	m_pTransformCom->Rotation(Engine::ROT_Y, D3DXToRadian(0.1f)); //나중에 라이팅 태양처럼  같이옮겨주기 
+	if (m_fRot >= 360.f) //24 360 15
+		m_fRot = 0.f;
+	else
+		m_fRot+=1.f;
+	m_pTransformCom->Rotation(Engine::ROT_Y, D3DXToRadian(1.f)); //나중에 라이팅 태양처럼  같이옮겨주기 
+	
+	//태양
+	_matrix matLightX, matLightY, matLightZ, matLight;
+	D3DXMatrixRotationX(&matLightX, D3DXToRadian(23.5f));
+	D3DXMatrixRotationY(&matLightY, D3DXToRadian(m_fRot));
+	//D3DXMatrixRotationZ(&matLightZ, D3DXToRadian(0.f));
+	matLight =matLightX*matLightY;
+	_vec3 vLightPos = { 4.f, 1.f, 0.f };
+	D3DXVec3TransformNormal(&vLightPos, &vLightPos, &matLight);
+	_vec3 vPos = vLightPos*m_fLength;
+	Engine::Get_Light(0)->Position = vLightPos*228.f;
 
 	_matrix	matCamWorld;
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matCamWorld);
 
 	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
 	m_pTransformCom->Set_Pos(matCamWorld._41, matCamWorld._42 + 3.f, matCamWorld._43);
+
+
 
 	//if (CKeyMgr::GetInstance()->KeyPressing(KEY_F))
 	//{

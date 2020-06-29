@@ -1,5 +1,5 @@
-#ifndef Effect_h__
-#define Effect_h__
+#ifndef ThreeDUI_h__
+#define ThreeDUI_h__
 
 #include "Defines.h"
 #include "GameObject.h"
@@ -43,6 +43,8 @@ private:
 	_float					m_fFrameCnt = 0;
 	_float					m_fFrameMax = 90.f;
 	
+	_matrix					m_matBill;
+
 public:
 	static C3DUI*		Create(LPDIRECT3DDEVICE9 pGraphicDev,  wstring wstrTexName);
 
@@ -50,4 +52,4 @@ private:
 	virtual void Free(void) override;
 };
 
-#endif // Effect_h__
+#endif // ThreeDUI_h__

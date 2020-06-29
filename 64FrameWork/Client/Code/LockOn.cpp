@@ -1,55 +1,65 @@
 #include "stdafx.h"
-#include "Effect.h"
+#include "LockOn.h"
 
 #include "Export_Function.h"
 
-CEffect::CEffect(LPDIRECT3DDEVICE9 pGraphicDev)
-	: Engine::CGameObject(pGraphicDev)
+CLockOn::CLockOn(LPDIRECT3DDEVICE9 pGraphicDev, wstring wstrTexName)
+	: Engine::CGameObject(pGraphicDev),m_wstrTexName(wstrTexName)
 {
 
 }
 
-CEffect::~CEffect(void)
+CLockOn::~CLockOn(void)
 {
 
 }
 
-HRESULT CEffect::Ready_GameObject(void)
+HRESULT CLockOn::Ready_GameObject(void)
 {
 	FAILED_CHECK_RETURN(Add_Component(), E_FAIL);
 	//m_vScale.x = m_pTextureCom->Get_ImageInfo().Width*0.001f;
 	//m_vScale.y = m_pTextureCom->Get_ImageInfo().Height*0.001f;
 	//m_vScale.z = 0.0000001f;
+
+
+	//m_pTransformCom->Set_Scale(m_vScale.x, m_vScale.y, m_vScale.z);
 	//m_pTransformCom->Set_Pos(0.f, 0.f, 0.f);
-	//m_pTransformCom->Set_Scale(m_pTextureCom->Get_ImageInfo().Width*0.001f,
-	//	m_pTextureCom->Get_ImageInfo().Height*0.001f,
-	//	0.0000001f);
+	
+
 
 	return S_OK;
 }
 
-HRESULT CEffect::LateReady_GameObject(void)
+HRESULT CLockOn::LateReady_GameObject(void)
 {
-	m_pTargetTransformCom = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(L"GameLogic", L"Player", L"Com_Transform", Engine::ID_DYNAMIC));
-	_vec3 vTargetPos = *m_pTargetTransformCom->Get_Info(Engine::INFO_POS);
-	m_pTransformCom->Set_Pos(vTargetPos.x, vTargetPos.y + 1.5f, vTargetPos.z);
+	m_pPlayerTransformCom = dynamic_cast<Engine::CTransform*>(Engine::Get_Component(L"GameLogic", L"Player", L"Com_Transform", Engine::ID_DYNAMIC));
 
 	return S_OK;
 }
 
-_int CEffect::Update_GameObject(const _float& fTimeDelta)
+_int CLockOn::Update_GameObject(const _float& fTimeDelta)
 {
-	m_fFrameCnt += m_fFrameMax * fTimeDelta;
+	_vec3 vTargetPos = { 0.f,100.f,0.f };
+	_vec3 vPos= { 0.f,100.f,0.f };
 
-	if (m_fFrameCnt >= m_fFrameMax)
-		m_fFrameCnt = 0.f;
-
-
+	if (m_pTargetTransformCom != nullptr)
+	{
+		vTargetPos = *m_pTargetTransformCom->Get_Info(Engine::INFO_POS);
+		_vec3 vPlayerPos = *m_pPlayerTransformCom->Get_Info(Engine::INFO_POS);
+		vPos = (vTargetPos - vPlayerPos)* 0.6f;
+		vPos = vPlayerPos + vPos;
+	
+	}
+	Blink_Image(fTimeDelta);
+	m_pTransformCom->Set_Pos(vPos.x, vPos.y+1.5f, vPos.z);
 	Engine::CGameObject::Update_GameObject(fTimeDelta);
+
 
 	_matrix	matWorld, matView, matBill;
 
+	Set_Scale();
 	m_pTransformCom->Get_WorldMatrix(&matWorld);
+
 	m_pGraphicDev->GetTransform(D3DTS_VIEW, &matView);
 
 	D3DXMatrixIdentity(&matBill);
@@ -70,7 +80,7 @@ _int CEffect::Update_GameObject(const _float& fTimeDelta)
 	return 0;
 }
 
-void CEffect::Render_GameObject(void)
+void CLockOn::Render_GameObject(void)
 {
 
 	LPD3DXEFFECT	pEffect = m_pShaderCom->Get_EffectHandle();
@@ -94,7 +104,7 @@ void CEffect::Render_GameObject(void)
 	Safe_Release(pEffect);
 }
 
-HRESULT CEffect::Add_Component(void)
+HRESULT CLockOn::Add_Component(void)
 {
 	Engine::CComponent*		pComponent = nullptr;
 
@@ -106,7 +116,7 @@ HRESULT CEffect::Add_Component(void)
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_pComponentMap[Engine::ID_DYNAMIC].emplace(L"Com_Transform", pComponent);
 
-	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(Engine::Clone(RESOURCE_STAGE, L"Texture_HPGauge"));
+	pComponent = m_pTextureCom = dynamic_cast<Engine::CTexture*>(Engine::Clone(RESOURCE_STAGE, m_wstrTexName.c_str()));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_pComponentMap[Engine::ID_STATIC].emplace(L"Com_Texture", pComponent);
 
@@ -115,7 +125,7 @@ HRESULT CEffect::Add_Component(void)
 	pComponent->AddRef();
 	m_pComponentMap[Engine::ID_STATIC].emplace(L"Com_Renderer", pComponent);
 	
-	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(Engine::Clone_Prototype(L"Shader_Effect"));
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(Engine::Clone_Prototype(L"Shader_LockOn"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_pComponentMap[Engine::ID_STATIC].emplace(L"Com_Shader", pComponent);
 	
@@ -124,7 +134,7 @@ HRESULT CEffect::Add_Component(void)
 
 
 
-HRESULT CEffect::SetUp_ConstantTable(LPD3DXEFFECT& pEffect)
+HRESULT CLockOn::SetUp_ConstantTable(LPD3DXEFFECT& pEffect)
 {
 	_matrix			matWorld, matView, matProj;
 
@@ -138,13 +148,37 @@ HRESULT CEffect::SetUp_ConstantTable(LPD3DXEFFECT& pEffect)
 
 	m_pTextureCom->Set_Texture(pEffect, "g_BaseTexture", _uint(m_fFrameCnt));
 	Engine::SetUp_OnShader(pEffect, L"Target_Depth", "g_DepthTexture");
+	pEffect->SetFloat("g_TextureA", m_fAlpha);
 
 	return S_OK;
 }
 
-CEffect* CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev)
+void CLockOn::Blink_Image(_float fTimeDelta)
 {
-	CEffect*	pInstance = new CEffect(pGraphicDev);
+	m_fSin += fTimeDelta*200;
+	if (m_fSin > 180.f)
+		m_fSin = 0.f;
+	m_fAlpha=0.5f+(sinf(D3DXToRadian(m_fSin))*0.5f);
+
+}
+
+void CLockOn::Set_Scale()
+{
+	m_pTransformCom->m_matWorld._11 *= m_pTextureCom->Get_ImageInfo().Width*0.015;
+	m_pTransformCom->m_matWorld._22 *= m_pTextureCom->Get_ImageInfo().Height*0.015f;
+	m_pTransformCom->m_matWorld._33 *= m_pTextureCom->Get_ImageInfo().Width*0.015f;
+
+
+}
+
+void CLockOn::Set_TargetPos(Engine::CTransform * pTargetTrasnform)
+{
+	m_pTargetTransformCom = pTargetTrasnform;
+}
+
+CLockOn* CLockOn::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring wstrTexName)
+{
+	CLockOn*	pInstance = new CLockOn(pGraphicDev, wstrTexName);
 
 	if (FAILED(pInstance->Ready_GameObject()))
 		Engine::Safe_Release(pInstance);
@@ -152,7 +186,7 @@ CEffect* CEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev)
 	return pInstance;
 }
 
-void CEffect::Free(void)
+void CLockOn::Free(void)
 {
 
 

@@ -156,6 +156,12 @@
     <ClInclude Include="..\Code\Shader_Title.hpp">
       <Filter>09. Shader\Defferdhpp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\Shader_3DUI.hpp">
+      <Filter>09. Shader\Defferdhpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Code\Shader_LockOn.hpp">
+      <Filter>09. Shader\Defferdhpp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Header\Export_Utility.inl">

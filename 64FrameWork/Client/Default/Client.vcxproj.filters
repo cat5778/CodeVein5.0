@@ -148,6 +148,9 @@
     <Filter Include="02. GameObejct\02. Public\05. UI\3DUI">
       <UniqueIdentifier>{0898c444-e21a-4126-8a84-2c34b0318659}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObejct\02. Public\05. UI\3DUI\LockOn">
+      <UniqueIdentifier>{00557c36-699d-4114-bfa1-86978bcf909f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -267,6 +270,9 @@
     <ClInclude Include="..\Code\Image.h">
       <Filter>02. GameObejct\02. Public\05. UI\01. Image</Filter>
     </ClInclude>
+    <ClInclude Include="..\Code\LockOn.h">
+      <Filter>02. GameObejct\02. Public\05. UI\3DUI\LockOn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -382,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="..\Code\Image.cpp">
       <Filter>02. GameObejct\02. Public\05. UI\01. Image</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Code\LockOn.cpp">
+      <Filter>02. GameObejct\02. Public\05. UI\3DUI\LockOn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -106,13 +106,13 @@ HRESULT CPlayer::LateReady_GameObject(void)
 	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Player_SPGauge", pGameObject), E_FAIL);
 
 
-	pGameObject= m_pSPGaugeBar = CGauge::Create(m_pGraphicDev, L"BossHPBar", _vec3(WINCX*0.5, 20.f, 0.1f), PIVOT_M);
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_HPBar", pGameObject), E_FAIL);
+	//pGameObject= m_pSPGaugeBar = CGauge::Create(m_pGraphicDev, L"BossHPBar", _vec3(WINCX*0.5, 20.f, 0.1f), PIVOT_M);
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_HPBar", pGameObject), E_FAIL);
 
-	pGameObject =m_pSPGauge= CGauge::Create(m_pGraphicDev, L"BossHP", _vec3(WINCX*0.5, 20.f, 0.09f), PIVOT_M, _vec3(0.05f, 0.f, 1.0f));
-	NULL_CHECK_RETURN(pGameObject, E_FAIL);
-	FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_HP", pGameObject), E_FAIL);
+	//pGameObject =m_pSPGauge= CGauge::Create(m_pGraphicDev, L"BossHP", _vec3(WINCX*0.5, 20.f, 0.09f), PIVOT_M, _vec3(0.05f, 0.f, 1.0f));
+	//NULL_CHECK_RETURN(pGameObject, E_FAIL);
+	//FAILED_CHECK_RETURN(pLayer->Add_GameObject(L"Boss_HP", pGameObject), E_FAIL);
 
 
 	return S_OK;
@@ -161,7 +161,7 @@ _int CPlayer::Update_GameObject(const _float& fTimeDelta)
 	//_vec3 vPos = *m_pTransformCom->Get_Info(Engine::INFO_POS);
 	//cout << "X=" << vPos.x << "y=" << vPos.y << "Z=" << vPos.z << endl;
 	//cout << "Cur Cell " << m_pNaviCom->Get_CurIndex() << endl;
-	//Guard_H(fTimeDelta);
+	Guard_H(fTimeDelta);
 
 
 	Collision_Check(fTimeDelta);
@@ -1509,8 +1509,8 @@ void CPlayer::UpdateGague(_float fTimeDelta)
 {
 	//if (CKeyMgr::GetInstance()->KeyDown(KEY_G))
 	//	m_fCurHP -= 10.f;
-	if (CKeyMgr::GetInstance()->KeyDown(KEY_H))
-		m_fCurSP -= 10.f;
+	//if (CKeyMgr::GetInstance()->KeyDown(KEY_H))
+	//	m_fCurSP -= 10.f;
 
 
 

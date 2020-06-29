@@ -61,6 +61,9 @@ _int C3DUI::Update_GameObject(const _float& fTimeDelta)
 
 	m_pRendererCom->Add_RenderGroup(Engine::RENDER_ALPHA, this);
 
+
+
+
 	return 0;
 }
 
@@ -109,7 +112,7 @@ HRESULT C3DUI::Add_Component(void)
 	pComponent->AddRef();
 	m_pComponentMap[Engine::ID_STATIC].emplace(L"Com_Renderer", pComponent);
 	
-	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(Engine::Clone_Prototype(L"Shader_Effect"));
+	pComponent = m_pShaderCom = dynamic_cast<Engine::CShader*>(Engine::Clone_Prototype(L"Shader_3DUI"));
 	NULL_CHECK_RETURN(pComponent, E_FAIL);
 	m_pComponentMap[Engine::ID_STATIC].emplace(L"Com_Shader", pComponent);
 	
@@ -132,6 +135,8 @@ HRESULT C3DUI::SetUp_ConstantTable(LPD3DXEFFECT& pEffect)
 
 	m_pTextureCom->Set_Texture(pEffect, "g_BaseTexture", _uint(m_fFrameCnt));
 	Engine::SetUp_OnShader(pEffect, L"Target_Depth", "g_DepthTexture");
+
+
 
 	return S_OK;
 }

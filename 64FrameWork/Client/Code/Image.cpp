@@ -166,6 +166,7 @@ void CImage::LerpGague(_float fTimeDelata)
 }
 
 
+
 CImage* CImage::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring wstrTexName, _vec3 vPos, PIVOT ePivot, _float fFilter, _vec3 vUVASpeed, _float fAlphaSpeed)
 {
 	CImage*	pInstance = new CImage(pGraphicDev, wstrTexName, vPos, ePivot, fFilter,vUVASpeed, fAlphaSpeed);
